@@ -7,16 +7,20 @@ limaでDocker Engineを動かす。
 - 下記をベースにlima VMを作る
   - [examples/docker.yaml](https://github.com/lima-vm/lima/blob/master/examples/docker.yaml)
 
-## Docker入り lime VM作成
+## 使い方
+
+### Docker入り lime VM作成
 
 ```sh
 brew install lima
 limactl --version
 limactl start ./docker.yaml
-limactl shell docker
+# hostの設定(DOCKER_HOSTの指定等)が済んでいれば、
+# 下記でDocker client, serverのバージョンが表示されるはず
+docker version
 ```
 
-## `docker.yaml`編集した場合
+### `docker.yaml`編集した場合
 
 lima VM作り直し。
 
@@ -25,3 +29,27 @@ limactl stop docker
 limactl rm docker
 limactl start ./docker.yaml
 ```
+
+### lima VMへの操作関連
+
+lima VMに入る時 (`docker`はlima VMのインスタンス名)
+
+```sh
+limactl shell docker
+```
+
+なお、`lima`コマンドは下記の通りdefaultインスタンスへのエイリアス
+
+> lima is an alias for "limactl shell default".
+
+なので、別のインスタンスへのコマンド実行は下記のように行う
+
+```sh
+limactl shell docker uname -a
+# defaultインスタンスへの実行なら下記が可能
+lima uname -a
+```
+
+## メモ
+
+- `~/src`と`~/ghq`を書き込み可能でmountしている
